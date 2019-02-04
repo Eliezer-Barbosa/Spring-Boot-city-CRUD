@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.eliezercode.CityCRUD.repository.CityRepository;
+import com.eliezercode.CityCRUD.model.City;
 
 @Controller
 @RequestMapping("/cities")
@@ -23,6 +24,12 @@ public class CityController {
 	public String index(Model model) {
 		model.addAttribute("cities", this.cityRepository.findAll());
 		return "cities/index";
+	}
+	
+	@GetMapping("/new") // http://localhost:8080/cities/new
+	public String newCity(Model model) {
+		model.addAttribute("city", new City());
+		return "cities/new"; 
 	}
 
 }
