@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.eliezercode.CityCRUD.repository.CityRepository;
@@ -46,6 +47,22 @@ public class CityController {
 		model.addAttribute("city", this.cityRepository.findOne(id));
 		
 		return "cities/edit"; // package/file
+	}
+	
+	@PutMapping("{id}")
+	public String update(@PathVariable("id") Long id, @ModelAttribute("city") City city, Model model) {
+		City findCity = this.cityRepository.findOne(id);
+		
+		if (findCity != null) {
+			findCity.setId(city.getId());
+			findCity.setName(city.getName());
+			
+			this.cityRepository.save(findCity);
+			
+			return "redirect:/cities";
+		}
+		
+		return "redirect:/cities";
 	}
 
 }
